@@ -8,8 +8,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Calendar, Users, Clock, Loader2, Sparkles, Plus, Trash2, CheckCircle2, AlertCircle, Copy } from 'lucide-react';
+import { Calendar, Users, Clock, Loader2, Sparkles, Plus, Trash2, CheckCircle2, AlertCircle, Copy, Command } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Interviewer {
@@ -19,7 +20,6 @@ interface Interviewer {
 }
 
 export default function Scheduler() {
-  const [groqApiKey, setGroqApiKey] = useState('');
   const [candidateAvailability, setCandidateAvailability] = useState('');
   const [interviewers, setInterviewers] = useState<Interviewer[]>([
     { id: '1', name: '', availability: '' }
@@ -27,16 +27,6 @@ export default function Scheduler() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const savedKey = localStorage.getItem('groq_api_key');
-    if (savedKey) setGroqApiKey(savedKey);
-  }, []);
-
-  const saveKey = (key: string) => {
-    setGroqApiKey(key);
-    localStorage.setItem('groq_api_key', key);
-  };
 
   const addInterviewer = () => {
     setInterviewers([...interviewers, { id: Math.random().toString(36).substr(2, 9), name: '', availability: '' }]);
@@ -61,17 +51,13 @@ export default function Scheduler() {
   };
 
   const handleSchedule = async () => {
-    if (!groqApiKey) {
-      setError('Please provide a Groq API Key');
-      return;
-    }
     setLoading(true);
     setError(null);
     try {
       const resp = await fetch('/api/schedule', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ groqApiKey, candidateAvailability, interviewers })
+        body: JSON.stringify({ candidateAvailability, interviewers })
       });
       const data = await resp.json();
       if (data.error) throw new Error(data.error);
@@ -97,14 +83,14 @@ export default function Scheduler() {
         className="grid grid-cols-1 lg:grid-cols-2 gap-8"
       >
         {/* Left Column: Inputs */}
-        <div className="space-y-6">
-          <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
+        <div className="space-y-6 z-10">
+          <Card className="border-emerald-500/20 bg-black/60 backdrop-blur-xl shadow-2xl shadow-emerald-500/5">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle className="text-2xl flex items-center gap-2">
-                    <Sparkles className="text-primary w-6 h-6" />
-                    Interview Scheduler
+                    <Command className="text-primary w-6 h-6" />
+                    ScheduleAI
                   </CardTitle>
                   <CardDescription>Automate complex scheduling logic with AI</CardDescription>
                 </div>
@@ -114,34 +100,21 @@ export default function Scheduler() {
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground flex items-center gap-1">
-                  Groq API Key <span className="text-destructive">*</span>
-                </label>
-                <Input 
-                  type="password" 
-                  placeholder="gsk_..." 
-                  value={groqApiKey} 
-                  onChange={(e) => saveKey(e.target.value)}
-                  className="bg-muted/50 border-none focus-visible:ring-1 focus-visible:ring-primary"
-                />
-              </div>
-
               <div className="space-y-2 pt-2">
-                <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+                <label className="text-sm font-bold uppercase tracking-wider text-primary flex items-center gap-1">
                   Candidate Availability
                 </label>
                 <Textarea 
                   placeholder="E.g. Monday-Wednesday 2-5pm or Fri 9am-12pm" 
                   value={candidateAvailability}
                   onChange={(e) => setCandidateAvailability(e.target.value)}
-                  className="min-h-[100px] resize-none bg-muted/50 border-none focus-visible:ring-1 focus-visible:ring-primary"
+                  className="min-h-[100px] resize-none bg-black/40 border-primary/20 focus-visible:ring-1 focus-visible:ring-primary text-white placeholder:text-gray-500"
                 />
               </div>
 
               <div className="space-y-4 pt-4">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+                  <label className="text-sm font-bold uppercase tracking-wider text-primary flex items-center gap-1">
                     Interviewer Availability
                   </label>
                   <Button variant="ghost" size="sm" onClick={addInterviewer} className="h-7 px-2 text-primary hover:text-primary hover:bg-primary/10">
@@ -189,27 +162,26 @@ export default function Scheduler() {
               <Button 
                 onClick={handleSchedule} 
                 disabled={loading} 
-                className="w-full relative overflow-hidden group shadow-lg shadow-primary/20"
+                className="w-full h-12 text-lg font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all active:scale-95 group relative overflow-hidden"
               >
                 {loading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Analyzing Schedules...
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Finding Best Slot...
                   </>
                 ) : (
                   <>
-                    <Clock className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" />
-                    Match Best Slots
+                    <Sparkles className="mr-2 h-5 w-5 group-hover:animate-pulse" />
+                    MATCH BEST SLOTS
                   </>
                 )}
-                <div className="absolute inset-0 w-1/4 h-full bg-white/10 -skew-x-[30deg] -translate-x-full group-hover:translate-x-[400%] transition-transform duration-700" />
               </Button>
             </CardFooter>
           </Card>
         </div>
 
         {/* Right Column: Results */}
-        <div className="space-y-6">
+        <div className="space-y-6 z-10">
           <AnimatePresence mode="wait">
             {!result && !error && !loading && (
               <motion.div 
@@ -217,10 +189,10 @@ export default function Scheduler() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="h-full flex flex-col items-center justify-center p-12 text-center space-y-4 border-2 border-dashed border-muted rounded-xl"
+                className="h-full flex flex-col items-center justify-center p-12 text-center space-y-4 border-2 border-dashed border-emerald-500/20 rounded-xl bg-black/40"
               >
-                <div className="bg-primary/5 p-4 rounded-full">
-                  <Calendar className="w-12 h-12 text-primary opacity-50" />
+                <div className="bg-emerald-500/10 p-4 rounded-full">
+                  <Calendar className="w-12 h-12 text-emerald-500 opacity-80" />
                 </div>
                 <div>
                   <h3 className="text-xl font-medium">Ready to Analyze</h3>
@@ -244,7 +216,7 @@ export default function Scheduler() {
                 </div>
                 <div className="text-center">
                   <p className="text-lg font-medium animate-pulse">Running AI Conflicts Resolution...</p>
-                  <p className="text-sm text-muted-foreground mt-1">Llama 3.3 is finding the perfect match.</p>
+                  <p className="text-sm text-muted-foreground mt-1">ScheduleAI is finding the perfect match.</p>
                 </div>
               </motion.div>
             )}
@@ -274,11 +246,11 @@ export default function Scheduler() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="space-y-4"
               >
-                <Card className="border-primary/20 bg-card/70 overflow-hidden relative">
-                  <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
+                <Card className="border-emerald-500/20 bg-black/60 overflow-hidden relative backdrop-blur-xl">
+                  <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500" />
                   <CardHeader className="pb-2">
                     <div className="flex items-start justify-between">
-                      <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/10 border-primary/20">Final Recommendation</Badge>
+                      <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/10 border-emerald-500/20">Final Recommendation</Badge>
                       <Button variant="ghost" size="icon" onClick={copyToClipboard} className="h-8 w-8 text-muted-foreground">
                         <Copy className="w-4 h-4" />
                       </Button>
@@ -301,8 +273,8 @@ export default function Scheduler() {
                   <TabsContent value="summary" className="p-0 pt-4">
                     <Card className="border-none shadow-none bg-transparent">
                       <ScrollArea className="h-[400px] pr-4">
-                        <div className="prose prose-invert max-w-none text-sm leading-relaxed">
-                          <ReactMarkdown>{result.markdown_summary}</ReactMarkdown>
+                        <div className="prose prose-invert max-w-none text-base font-medium text-gray-200 leading-relaxed">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>{result.markdown_summary}</ReactMarkdown>
                         </div>
                       </ScrollArea>
                     </Card>
