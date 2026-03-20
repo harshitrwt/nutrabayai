@@ -76,14 +76,14 @@ export default function Scheduler() {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-6xl mt-8">
+    <div className="container mx-auto p-4 max-w-6xl mt-8 mb-20">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="grid grid-cols-1 lg:grid-cols-2 gap-8"
       >
-        {/* Left Column: Inputs */}
-        <div className="space-y-6 z-10">
+  
+        <div className="space-y-6 z-10 border-2 border-white/10 rounded-lg ">
           <Card className="border-emerald-500/20 bg-black/60 backdrop-blur-xl shadow-2xl shadow-emerald-500/5">
             <CardHeader>
               <div className="flex items-center justify-between">
@@ -94,7 +94,7 @@ export default function Scheduler() {
                   </CardTitle>
                   <CardDescription>Automate complex scheduling logic with AI</CardDescription>
                 </div>
-                <Button variant="outline" size="sm" onClick={loadExample} className="text-xs h-8">
+                <Button variant="outline" size="sm" onClick={loadExample} className="text-xs h-8 cursor-pointer">
                   Load Example
                 </Button>
               </div>
@@ -118,7 +118,7 @@ export default function Scheduler() {
                     Interviewer Availability
                   </label>
                   <Button variant="ghost" size="sm" onClick={addInterviewer} className="h-7 px-2 text-primary hover:text-primary hover:bg-primary/10">
-                    <Plus className="w-4 h-4 mr-1" /> Add
+                    <Plus className="w-4 h-4 mr-1 cursor-pointer" /> Add
                   </Button>
                 </div>
                 
@@ -150,7 +150,7 @@ export default function Scheduler() {
                           onClick={() => removeInterviewer(inv.id)}
                           className="h-9 w-9 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-4 h-4 cursor-pointer" />
                         </Button>
                       </div>
                     </motion.div>
@@ -171,7 +171,7 @@ export default function Scheduler() {
                   </>
                 ) : (
                   <>
-                    <Sparkles className="mr-2 h-5 w-5 group-hover:animate-pulse" />
+                    
                     MATCH BEST SLOTS
                   </>
                 )}
@@ -180,7 +180,7 @@ export default function Scheduler() {
           </Card>
         </div>
 
-        {/* Right Column: Results */}
+       
         <div className="space-y-6 z-10">
           <AnimatePresence mode="wait">
             {!result && !error && !loading && (

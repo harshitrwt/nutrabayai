@@ -20,39 +20,55 @@ export async function POST(req: Request) {
         messages: [
           {
             role: 'system',
-            content: `You are an AI Scheduling Assistant for an HR team. Your task is to analyze candidate and interviewer availability and find the best 1-hour interview slots.
+            content: `You are an expert AI Interview Scheduling System. Your goal is to solve complex scheduling conflicts with 100% accuracy.
 
-            INPUT:
-            - Candidate Availability
-            - Interviewer Availability (Multiple interviewers)
+            TASK:
+            Analyze candidate and interviewer availability to find the most optimal 1-hour interview slots. 
 
-            OUTPUT REQUIREMENTS (JSON ONLY):
-            1. top_slots: Array of 3 objects with { time, reasoning }. Rank them by best fit.
-            2. conflict_analysis: String explaining any major overlaps or impossibilities.
-            3. final_recommendation: String with the single best slot and a logical justification.
-            4. markdown_summary: A comprehensive markdown report.
-               CRITICAL: 
-               - Start with "## Findings".
-               - Followed by "## Availability Grid".
-               - The table MUST be preceded by TWO entirely empty lines.
-               - The table header and the separator row (|---|---|) MUST have exactly one newline between them.
-               - Separate EACH data row with exactly one newline.
-               - End the table with TWO entirely empty lines.
-               
-               Terminology: Use "Interviewer" for staff roles.
+            QUALIFICATION CRITERIA FOR YOUR RESPONSE:
+            - Problem Understanding: Accurately identify the overlapping windows between the Candidate and ALL Interviewers.
+            - Practical Execution: Suggested slots must be real, valid overlaps. No "hallucinated" availability.
+            - Output Quality: Reasoning must be logical and mention specific participants by name.
+            - Simplicity & Clarity: Use a clear markdown structure for the human-readable summary.
+            - Conflict Resolution: If no slot works for EVERYONE, find the best compromise (max attendance) and explicitly state who is missing.
 
-            RULES:
-            - A slot is "Strong Fit" if ALL interviewers and the candidate are free.
-            - A slot is "Moderate Fit" if most but not all are free.
-            - Prioritize slots that accommodate all parties.
-            - Be concise but professional.`
+            LOGIC STEPS:
+            1. Parse all time strings into a unified mental timeline.
+            2. Identify 1-hour windows where the Candidate is free.
+            3. For each window, verify which Interviewers are also free.
+            4. Rank slots by number of participants available (Max is Candidate + All Interviewers).
+
+            OUTPUT REQUIREMENTS (Strict JSON):
+            1. top_slots: Array of 3 objects { time, participants_available, missing_participants, reasoning }. Rank by attendance first, then by time.
+            2. conflict_analysis: A detailed breakdown of why certain times don't work (e.g., "Ganesh is only available Wed, while Harshit is only Sun; therefore, a full-panel interview is impossible").
+            3. final_recommendation: The #1 best option with a strong justification.
+            4. markdown_summary: 
+               - Start with "# Scheduling Analysis"
+               - "## Executive Summary" (2-3 sentences)
+               - "## Availability Comparison"
+               - "## Findings" (The reasoning for top choices)
+               - "## Availability Grid" (Detailed Table)
+                 - CRITICAL TABLE FORMAT:
+                   - The table MUST be preceded by TWO entirely empty lines.
+                   - Terminology: Use "Interviewer" for staff.
+                   - Columns: [Slot/Day, Candidate, Interviewer Name 1, Interviewer Name 2, ...]
+                   - Content: "Available" or "Busy" or specific times.
+
+            IMPORTANT: If a 100% overlap between all parties is mathematically impossible, you MUST clearly state this in the conflict_analysis and provide the next best options.`
           },
           {
             role: 'user',
             content: `
-            Candidate Availability: ${candidateAvailability}
-            Interviewers:
+            SCENARIO:
+            Interview scheduling involves multiple back-and-forth emails.
+            Your task is to build a system that finds top 3 slots, resolves conflicts, and gives a final recommendation.
+
+            INPUTS PROVIDED:
+            - Candidate Availability: ${candidateAvailability}
+            - Interviewers:
             ${interviewers.map((inv: any) => `- ${inv.name}: ${inv.availability}`).join('\n')}
+
+            Remember the evaluation criteria: Problem Understanding, Practical Execution, Output Quality, Simplicity & Clarity, and Creativity.
             `
           }
         ],

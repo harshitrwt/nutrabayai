@@ -15,7 +15,6 @@ This MVP solves the complex problem of manual interview scheduling by using high
 - **AI Engine**: Groq API (Llama 3.3-70b-versatile)
 - **Styling**: Tailwind CSS + shadcn/ui
 - **Animations**: Framer Motion
-- **Formatting**: React Markdown (for beautiful AI reasoning)
 
 ## How to Use
 2. **Define Availability**: Enter the candidate's window and add as many interviewers as needed.
