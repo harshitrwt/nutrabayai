@@ -56,9 +56,9 @@ export default function Home() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold tracking-widest uppercase mb-8"
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/50 border border-emerald-500/20 text-emerald-400 text-xs tracking-widest uppercase mb-8"
         >
-          The Future of Remote Hiring
+          The Future of Hassle Free Hiring
         </motion.div>
         
         <motion.h1 
@@ -77,28 +77,27 @@ export default function Home() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-muted-foreground text-md sm:text-lg mb-12 leading-relaxed max-w-2xl mx-auto font-medium"
         >
-          Eliminate the "When are you free?" Hassle. Our AI analyzes 
+          Eliminate the "When are you <span className="text-emerald-500">free</span>?" Hassle. Our AI analyzes 
           clashing schedules to find the <span className=" border-b border-emerald-500/50 text-emerald-600 hover:bg-emerald-500/10 transition-colors px-1 cursor-default">perfect window</span> in seconds.
         </motion.p>
       </div>
 
      
-      <div className="relative w-full py-12 md:mt-[-70px] mt-[-100px]">
-        
+      <div className="relative w-full py-12 md:mt-[-70px] mt-[-100px] min-h-[500px] flex items-center justify-center">
         
         <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.6 }}  
-        className="absolute inset-0 z-0 opacity-80 pointer-events-none">
-          
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}  
+          className="absolute inset-0 z-0 opacity-80 pointer-events-none"
+        >
           <SoftAurora 
             color1="#10b981" 
             color2="#000000" 
             brightness={1.2} 
-            bandHeight={0.5} 
+            bandHeight={0.4} 
             speed={0.6}
-            scale={3.2}
+            scale={3.4}
             enableMouseInteraction={false}
           />
         </motion.div>
@@ -108,7 +107,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="relative z-10 rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-emerald-500/10 bg-black/40 backdrop-blur-sm"
+            className="relative z-10 rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-emerald-500/10 bg-black/40 backdrop-blur-sm aspect-video"
           >
             <video 
               src="/schedulevideo.mp4" 
@@ -116,7 +115,7 @@ export default function Home() {
               loop 
               muted 
               playsInline 
-              className="w-full h-auto object-cover"
+              className="w-full h-full object-cover"
             />
           </motion.div>
         </div>
@@ -132,6 +131,7 @@ export default function Home() {
         >
           Scheduler
         </motion.h2>
+        <p className="text-center text-muted-foreground text-md sm:text-lg mb-12 leading-relaxed max-w-2xl mx-auto font-medium">Try It, We <span className="text-emerald-500">Insist</span></p>
       </div>
 
       <motion.div
@@ -163,22 +163,8 @@ export default function Home() {
           </div>
           
           <div className="flex flex-col items-center md:items-end gap-6 relative z-10">
-            <div className="flex gap-4">
-               {['TW', 'LD', 'GH'].map((item, index) => (
-                 <motion.div 
-                   key={item}
-                   initial={{ opacity: 0, y: 10 }}
-                   whileInView={{ opacity: 1, y: 0 }}
-                   viewport={{ once: true }}
-                   transition={{ duration: 0.4, delay: 0.1 * index }}
-                   className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-emerald-500/20 hover:border-emerald-500/50 transition-all cursor-pointer group"
-                 >
-                   <span className="text-xs font-bold group-hover:text-emerald-400">{item}</span>
-                 </motion.div>
-               ))}
-            </div>
             <p className="text-[10px] text-muted-foreground font-mono uppercase tracking-[0.2em]">
-              BUILD_ID: 2.0.4-MVP | PROTOCOL_v1.0
+              2026 | By Harshit Rawat
             </p>
           </div>
         </div>
