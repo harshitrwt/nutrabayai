@@ -86,7 +86,11 @@ export default function Home() {
       <div className="relative w-full py-12 md:mt-[-70px] mt-[-100px]">
         
         
-        <div className="absolute inset-0 z-0 opacity-80 pointer-events-none">
+        <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.6 }}  
+        className="absolute inset-0 z-0 opacity-80 pointer-events-none">
           
           <SoftAurora 
             color1="#10b981" 
@@ -94,10 +98,10 @@ export default function Home() {
             brightness={1.2} 
             bandHeight={0.4} 
             speed={0.6}
-            scale={5}
+            scale={4.2}
             enableMouseInteraction={false}
           />
-        </div>
+        </motion.div>
 
         <div className="container mx-auto px-4 max-w-5xl relative z-10">
           <motion.div
