@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nutrabay AI | Smart Interview Scheduler",
+  title: "Schedule AI | Smart Interview Scheduler",
   description: "AI-powered automated interview scheduling and conflict resolution.",
 };
 

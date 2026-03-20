@@ -1,5 +1,6 @@
 'use client';
 
+import SoftAurora from "@/components/SoftAurora";
 import Scheduler from "@/components/Scheduler";
 import { Sparkles, Calendar, Command } from "lucide-react";
 import { motion } from "framer-motion";
@@ -64,10 +65,10 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-5xl sm:text-8xl font-black mb-8 tracking-tighter leading-[0.9] italic group drop-shadow-[0_0_30px_rgba(16,185,129,0.1)]"
+          className="text-5xl sm:text-7xl font-black mb-8 tracking-tighter leading-[0.9] italic group drop-shadow-[0_0_30px_rgba(16,185,129,0.1)]"
         >
-          RESOLVE <span className="italic">INSTANT</span> <br /> 
-          <span className="bg-clip-text animate-gradient">CONFLICTS</span>
+          RESOLVE <span className="italic">CONFLICTS</span> <br /> 
+          <span className="bg-clip-text animate-gradient">INSTANTLY</span>
         </motion.h1>
         
         <motion.p 
@@ -82,23 +83,41 @@ export default function Home() {
       </div>
 
      
-      <div className="container md:mt-[-70px] mt-[-100px] mx-auto px-4 py-12 max-w-5xl relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-emerald-500/10 bg-black/40 backdrop-blur-sm"
-        >
-          <video 
-            src="/schedulevideo.mp4" 
-            autoPlay 
-            loop 
-            muted 
-            playsInline 
-            className="w-full h-auto object-cover"
+      <div className="relative w-full py-12 md:mt-[-70px] mt-[-100px]">
+        
+        
+        <div className="absolute inset-0 z-0 opacity-80 pointer-events-none">
+          
+          <SoftAurora 
+            color1="#10b981" 
+            color2="#000000" 
+            brightness={1.2} 
+            bandHeight={0.4} 
+            speed={0.6}
+            scale={5}
+            enableMouseInteraction={false}
           />
-        </motion.div>
+        </div>
+
+        <div className="container mx-auto px-4 max-w-5xl relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="relative z-10 rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-emerald-500/10 bg-black/40 backdrop-blur-sm"
+          >
+            <video 
+              src="/schedulevideo.mp4" 
+              autoPlay 
+              loop 
+              muted 
+              playsInline 
+              className="w-full h-auto object-cover"
+            />
+          </motion.div>
+        </div>
       </div>
+
 
       <div className="container mx-auto px-4 max-w-6xl relative z-10 mt-32">
         <motion.h2 
@@ -134,7 +153,7 @@ export default function Home() {
                 Schedule<span className="text-emerald-500">AI</span>
               </h2>
               <p className="text-xs text-muted-foreground font-mono mt-2 uppercase tracking-widest">
-                Optimized for Productivity
+                Optimized for Nutrabay's Productivity
               </p>
             </div>
           </div>
