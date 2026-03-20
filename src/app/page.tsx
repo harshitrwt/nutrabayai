@@ -96,9 +96,9 @@ export default function Home() {
             color1="#10b981" 
             color2="#000000" 
             brightness={1.2} 
-            bandHeight={0.4} 
+            bandHeight={0.5} 
             speed={0.6}
-            scale={4.2}
+            scale={3.2}
             enableMouseInteraction={false}
           />
         </motion.div>
