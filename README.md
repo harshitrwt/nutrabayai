@@ -1,4 +1,4 @@
-# 🗓️ ScheduleAI
+# ScheduleAI
 
 **The Future of Remote Hiring & Conflict Resolution.**
 

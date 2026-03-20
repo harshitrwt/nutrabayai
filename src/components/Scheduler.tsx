@@ -162,7 +162,7 @@ export default function Scheduler() {
               <Button 
                 onClick={handleSchedule} 
                 disabled={loading} 
-                className="w-full h-12 text-lg font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all active:scale-95 group relative overflow-hidden"
+                className="w-full h-12 text-lg bg-emerald-600 hover:bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all active:scale-95 group relative overflow-hidden"
               >
                 {loading ? (
                   <>

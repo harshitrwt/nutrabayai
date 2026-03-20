@@ -157,7 +157,7 @@ export default function Home() {
                 Schedule<span className="text-emerald-500">AI</span>
               </h2>
               <p className="text-xs text-muted-foreground font-mono mt-2 uppercase tracking-widest">
-                Optimized for Nutrabay's Productivity
+                Optimized for <span className="text-emerald-500">Nutrabay's</span> Productivity
               </p>
             </div>
           </div>
